@@ -22,6 +22,10 @@ def main() -> None:
         raise ValueError("line must not be only whitespace")
     if "\n" in LINE or "\r" in LINE:
         raise ValueError("line must be exactly one line")
+    if any(ord(ch) < 32 or ord(ch) == 127 for ch in LINE):
+        raise ValueError("line must not contain control characters")
+    if LINE != LINE.strip():
+        raise ValueError("line must not have leading or trailing whitespace")
 
     path = os.environ.get("ENTRY_OUTPUT", "/output/entry.txt")
     parent = os.path.dirname(path)
